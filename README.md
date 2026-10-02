@@ -1,6 +1,6 @@
 ---
 title: ScamShield PK
-emoji: 🛡️
+emoji: ðŸ›¡ï¸
 colorFrom: blue
 colorTo: cyan
 sdk: gradio
@@ -22,7 +22,7 @@ Pakistani users receive social-engineering messages that impersonate banks, mobi
 ### Features
 
 - Language-aware analysis for English, Urdu, Roman Urdu and mixed messages.
-- Explainable local pattern and contextual-combination scoring (0–100; not a probability).
+- Explainable local pattern and contextual-combination scoring (0â€“100; not a probability).
 - OTP, credential, CNIC, link, urgency, prize, payment, government, job, investment, delivery and account-threat signals.
 - Structured categories, safety recommendations and per-session scan history.
 - Demo messages with balanced fictional scam and legitimate examples.
@@ -35,14 +35,14 @@ Add screenshots of the Home, Scan Message result and Product Details pages here 
 
 ## Supported languages
 
-English · Urdu (Unicode) · Roman Urdu · mixed-language messages. Language identification is a lightweight heuristic and may be uncertain on very short text.
+English Â· Urdu (Unicode) Â· Roman Urdu Â· mixed-language messages. Language identification is a lightweight heuristic and may be uncertain on very short text.
 
 ## Architecture
 
 ```text
-Gradio UI → Unicode-safe preprocessing → language detection
-          → signal extraction → contextual risk fusion
-          → category classification → explanation + safety action
+Gradio UI â†’ Unicode-safe preprocessing â†’ language detection
+          â†’ signal extraction â†’ contextual risk fusion
+          â†’ category classification â†’ explanation + safety action
 ```
 
 The current MVP uses transparent rules and vocabulary heuristics. No trained transformer scam model is currently active. Product Details explains the implemented and planned components.
@@ -51,26 +51,26 @@ The current MVP uses transparent rules and vocabulary heuristics. No trained tra
 
 ```text
 scamshield-pk/
-├── app.py
-├── config.py
-├── preprocessing.py
-├── language_engine.py
-├── risk_engine.py
-├── classifier.py
-├── explanation_engine.py
-├── history.py
-├── ui_components.py
-├── requirements.txt
-├── render.yaml
-├── README.md
-├── assets/style.css
-├── data/demo_messages.json
-└── tests/test_scoring.py
+â”œâ”€â”€ app.py
+â”œâ”€â”€ config.py
+â”œâ”€â”€ preprocessing.py
+â”œâ”€â”€ language_engine.py
+â”œâ”€â”€ risk_engine.py
+â”œâ”€â”€ classifier.py
+â”œâ”€â”€ explanation_engine.py
+â”œâ”€â”€ history.py
+â”œâ”€â”€ ui_components.py
+â”œâ”€â”€ requirements.txt
+â”œâ”€â”€ render.yaml
+â”œâ”€â”€ README.md
+â”œâ”€â”€ assets/style.css
+â”œâ”€â”€ data/demo_messages.json
+â””â”€â”€ tests/test_scoring.py
 ```
 
 ## Risk scoring
 
-Signals contribute transparent points (for example OTP request +30, credential request +30, CNIC +20, URL +20, prize +15, urgency +10, financial brand +5). Context combinations add weight, such as prize + OTP, financial brand + OTP, government name + link, and threat + urgency + link. The result is capped at 100 and mapped to Low Risk (0–29), Suspicious (30–59), High Risk (60–79), or Critical Scam Risk (80–100). An isolated brand or government name does not trigger a high score. These are advisory risk points, not a calibrated probability.
+Signals contribute transparent points (for example OTP request +30, credential request +30, CNIC +20, URL +20, prize +15, urgency +10, financial brand +5). Context combinations add weight, such as prize + OTP, financial brand + OTP, government name + link, and threat + urgency + link. The result is capped at 100 and mapped to Low Risk (0â€“29), Suspicious (30â€“59), High Risk (60â€“79), or Critical Scam Risk (80â€“100). An isolated brand or government name does not trigger a high score. These are advisory risk points, not a calibrated probability.
 
 ## Install and run locally
 
@@ -88,27 +88,27 @@ python app.py
 
 Open `http://localhost:7860`.
 
-## Free public deployment on Render
+## Free public deployment on Vercel
 
-The Gradio library is open source. Hugging Face currently requires a paid plan to create a standard Gradio Space on compute, so this project includes a Render Blueprint for a free Python web service instead.
+The project exposes its existing Gradio interface as a FastAPI ASGI application for Vercel's Python runtime. The scan engine, visual interface, and session-based history are unchanged. No Docker, GPU, paid API, or secrets are required.
 
-1. Push this project folder to a GitHub repository.
-2. Sign in to Render and choose **New → Blueprint**.
-3. Connect the GitHub repository and approve the `render.yaml` blueprint.
-4. Confirm the `scamshield-pk` web service uses the **Free** plan, then deploy.
-5. After the build succeeds, open the `onrender.com` URL and test one safe and one demonstration message.
+1. Push this repository to GitHub.
+2. Sign in to [Vercel](https://vercel.com/) and select **Add New**, then **Project**.
+3. Import `zainab259/scamshield-pk` (or your fork) and select the **Hobby** plan for personal, non-commercial use.
+4. Keep the detected Python/FastAPI settings and select **Deploy**. No build command or environment variables are needed.
+5. Once deployment finishes, use the generated `*.vercel.app` URL and test a safe and a demonstration message.
 
-Render free services spin down after 15 minutes without traffic and can take about a minute to wake up. The first visit after idle may therefore be slow. No Docker, GPU, paid API, or database is required. Session history is ephemeral.
+Vercel's Python runtime is currently in Beta. The Hobby plan is intended for personal, non-commercial projects and has usage limits. Scan history remains session-based and ephemeral.
 
-## Hugging Face Spaces
+## Other deployment targets
 
-You can still deploy to a Gradio Space if you have an eligible Hugging Face plan or ZeroGPU access. Standard Gradio Spaces on CPU Basic are no longer available to create from a free personal account. Check current Spaces account eligibility and pricing before choosing this route.
+`python app.py` still runs the original Gradio server locally. `render.yaml` is retained for users who prefer Render, and the Hugging Face Space metadata remains available for eligible Spaces accounts.
 
 ## Demonstration messages
 
 - Scam: `Congratulations! Apko JazzCash ki taraf se Rs 50,000 inaam mila hai. Apna OTP aur CNIC bhejein.`
 - Scam: `Your account will be suspended today. Verify immediately by clicking http://example-login.com`
-- Scam: `آپ کو 25000 روپے انعام ملا ہے۔ رقم حاصل کرنے کے لیے اپنا او ٹی پی بھیجیں۔`
+- Scam: `Ø¢Ù¾ Ú©Ùˆ 25000 Ø±ÙˆÙ¾Û’ Ø§Ù†Ø¹Ø§Ù… Ù…Ù„Ø§ ÛÛ’Û” Ø±Ù‚Ù… Ø­Ø§ØµÙ„ Ú©Ø±Ù†Û’ Ú©Û’ Ù„ÛŒÛ’ Ø§Ù¾Ù†Ø§ Ø§Ùˆ Ù¹ÛŒ Ù¾ÛŒ Ø¨Ú¾ÛŒØ¬ÛŒÚºÛ”`
 - Safe example: `Assalam o Alaikum, kal class 10 baje start hogi. Please time par aa jana.`
 - Safe example: `Your parcel has arrived and is available at the reception desk.`
 

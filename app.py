@@ -3,6 +3,7 @@ from pathlib import Path
 import json
 import os
 import gradio as gr
+from fastapi import FastAPI
 from config import APP_NAME, MAX_MESSAGE_LENGTH, DISCLAIMER
 from explanation_engine import explain
 from history import add_entry, render_history
@@ -101,8 +102,14 @@ with gr.Blocks(title=APP_NAME, css=CSS, theme=gr.themes.Base(primary_hue="blue",
             gr.HTML(ABOUT)
     gr.HTML("<footer class='footer'><span class='footer-brand'>ScamShield <b>PK</b></span><span>Risk checks are advisory. Verify important messages independently.</span><span>SESSION-BASED · NO ACCOUNT NEEDED</span></footer>")
 
+demo.queue(default_concurrency_limit=8)
+
+# Vercel serves the same Gradio Blocks UI through its Python ASGI runtime.
+# The scanner and interface above are shared with the local Gradio launcher.
+app = gr.mount_gradio_app(FastAPI(), demo, path="/")
+
 if __name__ == "__main__":
-    demo.queue(default_concurrency_limit=8).launch(
+    demo.launch(
         server_name="0.0.0.0",
         server_port=int(os.environ.get("PORT", "7860")),
     )
